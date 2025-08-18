@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import SpinningWheel from "./SpinningWheel";
 import { RiFullscreenLine } from "react-icons/ri";
-import { BsFullscreenExit } from "react-icons/bs";
+import { BsFullscreenExit, BsSortDownAlt } from "react-icons/bs";
 import screenfull from "screenfull";
 import { FaTrash, FaImage, FaCopy } from "react-icons/fa";
 import { nanoid } from "nanoid";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { CiShuffle } from "react-icons/ci";
 
 import {
   DndContext,
@@ -21,6 +22,8 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import './wheel.css'
+
 
 // Sortable segment card
 function SortableSegment({
@@ -236,6 +239,38 @@ export default function Wheel() {
           className={`w-96 max-h-[500px] bg-white rounded-md p-4 mt-5 shadow-lg overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 transition-all duration-500 ease-in-out
   ${collapsed ? "w-0 p-0 opacity-0" : "opacity-100"}`}
         >
+<div className="w-full flex gap-2 justify-end ">
+            <div className="flex items-center border cursor-pointer border-gray-400 mb-2 rounded-lg px-5 py-0.5"
+             onClick={() => {
+              const sorted = [...segments].sort((a, b) =>
+                a.text.localeCompare(b.text)
+              );
+              setSegments(sorted);
+            }}
+            >
+
+          {/* Sort */}
+          <BsSortDownAlt 
+            className="text-xl mr-2 cursor-pointer"
+          />
+          <div className="text-xs ">sort</div>
+          
+            </div>
+
+             <div className="flex items-center border cursor-pointer border-gray-400 mb-2 rounded-lg px-4 py-0.5"
+             onClick={() => {
+                const shuffled = [...segments].sort(() => Math.random() - 0.5);
+                setSegments(shuffled);
+              }}
+             >
+             <CiShuffle
+              className="text-xl mr-2 cursor-pointer"
+            />
+            <div className="text-xs">Shuffle</div>
+            </div>
+</div>
+           
+
           {/* Main input area */}
           <div className="flex gap-2 mb-4">
             <input
